@@ -28,7 +28,7 @@ Check the status spreadsheet first: a known problem may already be listed there.
 | Your copy of *Need for Speed: Most Wanted* Black Edition for PS2 (SLUS-21351), disc or ISO | The game data comes from it. |
 | A computer with Python 3 | To run the data script. Windows, macOS or Linux. |
 | ffmpeg (optional) | To prepare the movies. Without it the game runs without movies. |
-| About 3 GB free on the computer and on the Vita | The game data is about 2.3 GB and the converted movies about 0.2 GB. |
+| About 2 GB free on the computer and on the Vita | The game data is about 1.3 GB and the converted movies about 0.2 GB. |
 
 ## Why a script is needed
 
@@ -49,7 +49,7 @@ The script does not download anything, does not change your disc, and writes onl
 
    On Windows, use `python` instead of `python3`.
 
-   The script prints what it copies and converts. It takes a few minutes, and the movies take longer.
+   The script first copies the game files, then converts the movies one by one, showing its progress. The movies are the slow part: leave it running until it prints `Done`.
 
 5. **Copy the contents of `game-data`** (the folders and files inside it, not the folder itself) to `ux0:data/nfsmw/` on the Vita. Create the `nfsmw` folder inside `data` if it does not exist.
 6. **Start the game** from the LiveArea.

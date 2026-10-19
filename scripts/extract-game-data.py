@@ -1314,6 +1314,8 @@ def find(folder, *parts):
     path = folder
     for part in parts:
         wanted = part.upper()
+        if not os.path.isdir(path):
+            return None
         match = next((e for e in os.listdir(path) if e.upper() == wanted), None)
         if match is None:
             return None
@@ -1371,12 +1373,19 @@ def convert_movie(disc, entry, name, out):
         shutil.move(partial, dst)
 
 
+def movie_target(out, name):
+    base = name.split("\\")[-1].rsplit(".", 1)[0].upper()
+    return os.path.join(out, "MOVIES", base + ".MP4")
+
+
 def main():
     args = [a for a in sys.argv[1:] if a != "--no-movies"]
     with_movies = "--no-movies" not in sys.argv
     if len(args) != 2:
         sys.exit(__doc__)
     disc, out = args
+    if not os.path.isdir(disc):
+        sys.exit("Folder not found: %s\nOn Linux or WSL, Windows paths look like /mnt/<drive letter>/Folder/File, not D:\\Folder\\File" % disc)
     if find(disc, "SYSTEM.CNF") is None:
         sys.exit("SYSTEM.CNF not found: %s is not the root of a PS2 disc" % disc)
     with open(find(disc, "SYSTEM.CNF"), "rb") as f:
@@ -1388,40 +1397,58 @@ def main():
         with_movies = False
 
     entries = read_directory(disc)
-    copied = skipped = missing = movies = failed = 0
+    data, movies, missing = [], [], 0
     for name in FILES:
         entry = entries.get(name_hash(name))
         if entry is None:
             missing += 1
-            continue
-        is_movie = name.upper().endswith(".MPC")
-        if is_movie:
-            if not with_movies:
-                continue
-            base = name.split("\\")[-1].rsplit(".", 1)[0].upper()
-            if os.path.exists(os.path.join(out, "MOVIES", base + ".MP4")):
-                skipped += 1
-                continue
-            try:
-                convert_movie(disc, entry, name, out)
-                movies += 1
-            except subprocess.CalledProcessError:
-                failed += 1
-                print("could not convert %s" % name)
-            continue
+        elif name.upper().endswith(".MPC"):
+            movies.append((name, entry))
+        else:
+            data.append((name, entry))
+
+    # 1. The game files, all of them first: the game runs without the movies.
+    total_mb = sum(entry[2] for _, entry in data) / (1 << 20)
+    print("Copying %d game files (%.0f MB) to %s" % (len(data), total_mb, out))
+    copied = skipped = 0
+    done_mb = 0.0
+    for n, (name, entry) in enumerate(data, 1):
         dst = os.path.join(out, *name.split("\\"))
+        done_mb += entry[2] / (1 << 20)
         if os.path.exists(dst) and os.path.getsize(dst) == entry[2]:
             skipped += 1
             continue
+        if entry[2] >= 50 << 20:
+            print("  %s (%.0f MB)..." % (name, entry[2] / (1 << 20)))
         copy_entry(disc, entry, dst)
         copied += 1
-        if copied % 100 == 0:
-            print("%d files copied..." % copied)
-    print("Copied %d files and converted %d movies to %s (%d already there)" % (copied, movies, out, skipped))
+        if n % 100 == 0:
+            print("  %d of %d files, %.0f of %.0f MB" % (n, len(data), done_mb, total_mb))
+    print("Game files: %d copied, %d already there" % (copied, skipped))
+
+    # 2. The movies, converted one by one (each can take a minute or more).
+    converted = failed = 0
+    if with_movies:
+        todo = [(name, entry) for name, entry in movies if not os.path.exists(movie_target(out, name))]
+        print("Converting %d movies with ffmpeg (%d already there). This is the slow part: leave it running."
+              % (len(todo), len(movies) - len(todo)))
+        for n, (name, entry) in enumerate(todo, 1):
+            print("  movie %d of %d: %s" % (n, len(todo), name.split("\\")[-1]))
+            try:
+                convert_movie(disc, entry, name, out)
+                converted += 1
+            except subprocess.CalledProcessError:
+                failed += 1
+                print("  could not convert %s" % name)
+        print("Movies: %d converted" % converted)
+    else:
+        print("Movies skipped")
+
     if missing:
         print("%d listed files are not on this disc and were skipped" % missing)
     if failed:
         print("%d movies failed: run the script again to retry them" % failed)
+    print("Done. Copy the contents of %s to ux0:data/nfsmw/ on the Vita." % out)
 
 
 if __name__ == "__main__":
