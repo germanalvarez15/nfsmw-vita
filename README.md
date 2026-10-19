@@ -85,3 +85,4 @@ This project is not affiliated with or endorsed by Electronic Arts. *Need for Sp
 ## Credits
 
 - [VitaSDK](https://vitasdk.org) and [vitaGL](https://github.com/Rinnegatamante/vitaGL): toolchain and renderer.
+- To [dbalatoni13 decompilation](https://github.com/dbalatoni13/nfsmw) which served as starting point for the decompilation for this port. 
