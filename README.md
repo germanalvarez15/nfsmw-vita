@@ -63,6 +63,15 @@ The script does not download anything, does not change your disc, and writes onl
 
 Running the script again is safe: it skips the files already in `OUT`, so you can run it again after installing ffmpeg to add the movies.
 
+### Updating from an earlier version
+
+Some versions need game files that earlier versions of the script did not copy. To update:
+
+1. Download the latest `scripts/extract-game-data.py`.
+2. Run it again with the same `OUT` folder. It only copies what is missing, so it takes a few seconds.
+3. Copy the new files to `ux0:data/nfsmw/`. The release notes list them; for 1.2.0 they are `SOUND/SPEECH/COPSPEECH_EN.IDX` and `SOUND/STREAMS/NISAUDIO.IDX`.
+4. Install the new `nfsmw.vpk`.
+
 ## What the script does, step by step
 
 - Checks that the disc is *Need for Speed: Most Wanted* Black Edition (SLUS-21351). Any other disc is refused.
