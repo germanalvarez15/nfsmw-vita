@@ -72,6 +72,25 @@ Some versions need game files that earlier versions of the script did not copy. 
 3. Copy the new files to `ux0:data/nfsmw/`. The release notes list them; for 1.2.0 they are `SOUND/SPEECH/COPSPEECH_EN.IDX` and `SOUND/STREAMS/NISAUDIO.IDX`.
 4. Install the new `nfsmw.vpk`.
 
+## Video settings
+
+Open **Options > Video** from the main menu or the pause menu. The game saves the settings to `ux0:data/nfsmw/config.ini` when you leave the screen.
+
+| Setting | Values | Default | What it does |
+| --- | --- | --- | --- |
+| Resolution | 480x272, 640x368, 720x408, 960x544 | 640x368 | The size the game draws at. The Vita scales it to the screen in hardware at no cost. Applies after a restart. |
+| Frame Rate | 30, 60 | 30 | The frame rate limit. Applies at once. |
+| MW Color Filter | On, Off | On | The yellow *Most Wanted* look of the PS2 game. Applies at once. |
+| Car Light Glow | On, Off | Off | Draws headlights and brake lights at full brightness. Applies at once. |
+
+**Resolution.** 960x544 is the screen's native resolution and the sharpest, but the hardest on the GPU, which limits the 3D scene. 720x408 and 640x368 are in between. 480x272 is the fastest but looks blurry. The menu shows *(restart)* until you restart the game.
+
+**Frame Rate.** At 30 the game shows a new frame every second screen refresh, at 60 on every refresh. 60 is not guaranteed: a frame that takes longer than 16.6 ms is shown late, so the pace is less even. 30 is steady and uses less battery.
+
+**MW Color Filter.** The tint, bloom and brightness curves of the PS2 game's visual treatment, drawn over the 3D view. Turning it off gives neutral colors without the yellow haze, and saves up to about 3 ms a frame: the game then skips that whole pass unless motion blur needs it.
+
+**Car Light Glow.** With it on, headlight and brake light textures are drawn without shading, so a lit brake light looks lit even when the car is in shadow. With it off they are shaded like the rest of the car and look dimmer. It costs no performance.
+
 ## What the script does, step by step
 
 - Checks that the disc is *Need for Speed: Most Wanted* Black Edition (SLUS-21351). Any other disc is refused.
