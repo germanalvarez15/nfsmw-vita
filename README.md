@@ -91,6 +91,12 @@ Open **Options > Video** from the main menu or the pause menu. The game saves th
 
 **Car Light Glow.** With it on, headlight and brake light textures are drawn without shading, so a lit brake light looks lit even when the car is in shadow. With it off they are shaded like the rest of the car and look dimmer. It costs no performance.
 
+### Overclocking
+
+The game raises the CPU to 444 MHz, the Vita's standard maximum. The frame rate depends a lot on the CPU: an overclocking plugin that runs it at 500 MHz gives noticeably smoother races (in one race, 20-26 FPS at 500 MHz against 15-21 FPS at 444 MHz).
+
+**Overclocking drains the battery faster and makes the Vita run warmer.** It is optional and at your own risk. It does not fix crashes or freezes, so please report those as usual.
+
 ## What the script does, step by step
 
 - Checks that the disc is *Need for Speed: Most Wanted* Black Edition (SLUS-21351). Any other disc is refused.
