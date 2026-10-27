@@ -17,6 +17,7 @@ Found a bug or a crash? Please open an issue in the [Issues](../../issues) tab o
 - Your Vita's firmware version and the release you installed.
 - What you were doing when the problem happened, and whether it happens again.
 - The log file `ux0:data/nfsmw/nfsmw.log`, if the game wrote one.
+- After a crash, the newest `psp2core-*.psp2dmp` file in `ux0:data/`. If the game freezes, hold **L + R + Select** for 3 seconds: it closes and writes that file.
 
 Check the status spreadsheet first: a known problem may already be listed there.
 
@@ -111,6 +112,7 @@ The game raises the CPU to 444 MHz, the Vita's standard maximum. The frame rate 
 - **"ffmpeg was not found":** install ffmpeg, or use `--no-movies`.
 - **The game runs without movies:** the movies were not converted. Install ffmpeg and run the script again.
 - **The game shows an error about missing data:** check the log at `ux0:data/nfsmw/nfsmw.log` and confirm that the `game-data` folder was copied in full.
+- **The game warns that sound files are missing:** some files did not reach `ux0:data/nfsmw/`. Run the latest script again with the same output folder and copy the `game-data` folder again. Without those files the game crashed after the race against Bull.
 
 ## Legal notice
 
