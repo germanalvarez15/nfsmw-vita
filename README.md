@@ -98,6 +98,19 @@ The game raises the CPU to 444 MHz, the Vita's standard maximum. The frame rate 
 
 **Overclocking drains the battery faster and makes the Vita run warmer.** It is optional and at your own risk. It does not fix crashes or freezes, so please report those as usual.
 
+## Using your PS2 save
+
+You can continue a career from the PS2 game. Only saves from the **Black Edition (NTSC-U, SLUS-21351)** work, the same version the port needs; saves from the original release, the Greatest Hits, PAL or other consoles are refused.
+
+1. Get the save out of the memory card in any of these forms:
+   - A **.max** (Max Drive) or **.psu** (uLaunchELF, myMC) export, like the ones on save sharing sites.
+   - The whole **`BASLUS-21351-<NAME>`** folder, copied from a real memory card with uLaunchELF or from a PCSX2 folder memory card.
+   - The profile file inside that folder (also called `BASLUS-21351-<NAME>`, 62,689 bytes).
+2. Copy it as it is into `ux0:data/nfsmw/save/`. Do not rename it.
+3. Start the game. It converts the save into a profile named after the one on the PS2 and moves what you copied to `ux0:data/nfsmw/save/ps2-original/`.
+
+If the profile does not appear, what you copied is in `ux0:data/nfsmw/save/ps2-not-imported/` and the log (`ux0:data/nfsmw/nfsmw.log`) has a `[memcard]` line with the reason: another version of the game, a damaged file, or a profile with the same name already on the Vita (rename or delete that one first, then move the save back to `save/`).
+
 ## What the script does, step by step
 
 - Checks that the disc is *Need for Speed: Most Wanted* Black Edition (SLUS-21351). Any other disc is refused.
