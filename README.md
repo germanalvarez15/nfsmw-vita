@@ -111,6 +111,13 @@ You can continue a career from the PS2 game. Only saves from the **Black Edition
 
 If the profile does not appear, what you copied is in `ux0:data/nfsmw/save/ps2-not-imported/` and the log (`ux0:data/nfsmw/nfsmw.log`) has a `[memcard]` line with the reason: another version of the game, a damaged file, or a profile with the same name already on the Vita (rename or delete that one first, then move the save back to `save/`).
 
+### Taking your Vita save back to the PS2
+
+The game keeps a PS2 copy of every profile, updated each time it saves: `ux0:data/nfsmw/save/ps2-export/BASLUS-21351-<NAME>.psu`. It is the save folder the PS2 game makes, icon included, for the same Black Edition (SLUS-21351).
+
+- **Real PS2:** copy the `.psu` to a USB stick and paste it onto the memory card with uLaunchELF (it imports `.psu` files).
+- **PCSX2:** import it into the `.ps2` memory card file with myMC or myMC+.
+
 ## What the script does, step by step
 
 - Checks that the disc is *Need for Speed: Most Wanted* Black Edition (SLUS-21351). Any other disc is refused.
