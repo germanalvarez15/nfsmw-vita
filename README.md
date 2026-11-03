@@ -98,6 +98,16 @@ The game raises the CPU to 444 MHz, the Vita's standard maximum. The frame rate 
 
 **Overclocking drains the battery faster and makes the Vita run warmer.** It is optional and at your own risk. It does not fix crashes or freezes, so please report those as usual.
 
+## Stick sensitivity
+
+**Options > Gameplay > Stick Sensitivity**, from the main menu or the pause menu, sets how far the left stick steers for the same push, from 1 to 10. It works with the game's controls and with Custom Controls, and applies at once. The game saves it to `config.ini` as `steer_sensitivity`.
+
+- **5** (the default) is the PS2 game's response.
+- **Below 5** the car steers less for the same push, for finer control near the center, and the stick at the edge no longer reaches full lock. At 1, half way steers under a tenth of full lock and the edge steers 70%.
+- **Above 5** the car reaches full lock before the stick is at the edge. At 10, a fifth of the way is full lock.
+
+The d-pad always steers at full lock.
+
 ## Using your PS2 save
 
 You can continue a career from the PS2 game. Only saves from the **Black Edition (NTSC-U, SLUS-21351)** work, the same version the port needs; saves from the original release, the Greatest Hits, PAL or other consoles are refused.
