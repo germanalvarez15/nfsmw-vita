@@ -100,7 +100,7 @@ The game raises the CPU to 444 MHz, the Vita's standard maximum. The frame rate 
 
 ## Stick sensitivity
 
-**Options > Gameplay > Stick Sensitivity**, from the main menu or the pause menu, sets how far the left stick steers for the same push, from 1 to 10. It works with the game's controls and with Custom Controls, and applies at once. The game saves it to `config.ini` as `steer_sensitivity`.
+**Options > Gameplay > Stick Sensitivity**, from the main menu or the pause menu, sets how far the left stick steers for the same push, from 1 to 10. It works with the game's layout and with your own (Options > Controls), and applies at once. The game saves it to `config.ini` as `steer_sensitivity`.
 
 - **5** (the default) is the PS2 game's response.
 - **Below 5** the car steers less for the same push, for finer control near the center, and the stick at the edge no longer reaches full lock. At 1, half way steers under a tenth of full lock and the edge steers 70%.
