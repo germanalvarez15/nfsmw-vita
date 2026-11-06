@@ -17,6 +17,13 @@ ffmpeg on this computer (https://ffmpeg.org). Without ffmpeg, or with
 --no-movies, the other files are still extracted and the game runs without
 the movies. Running the script again skips the files already in OUT_DIR.
 
+Voices in other languages: the Black Edition has only the English ones. Run
+the script a second time with a European disc as DISC_DIR (and the same
+OUT_DIR): it copies only that disc's dubbed police radio and dubbed movies.
+    SLES-53559: Italian and Spanish
+    SLES-53558, SLES-53857 (Black Edition): French and German
+The texts of all the languages are already on the Black Edition.
+
 Needs only Python 3. The game is not downloaded or included here.
 """
 import os
@@ -1333,13 +1340,48 @@ def read_directory(disc):
         data = f.read()
     entries = {}
     for off in range(0, len(data) - ENTRY.size + 1, ENTRY.size):
-        hash_, file_number, local_sector, _, size, _ = ENTRY.unpack_from(data, off)
-        entries[hash_] = (file_number, local_sector, size)
+        hash_, file_number, local_sector, _, size, checksum = ENTRY.unpack_from(data, off)
+        entries[hash_] = (file_number, local_sector, size, checksum)
     return entries
 
 
+# European discs (the SYSTEM.CNF id): only their dubbed files are copied.
+EUROPEAN_DISCS = {
+    b"SLES_535.57": "Need for Speed: Most Wanted (Europe, English only)",
+    b"SLES_535.58": "Need for Speed: Most Wanted (Europe: French, German)",
+    b"SLES_535.59": "Need for Speed: Most Wanted (Europe: Italian, Spanish)",
+    b"SLES_538.57": "Need for Speed: Most Wanted Black Edition (Europe: French, German)",
+}
+# The police radio languages the game has besides English (audiosystem
+# Locales: copspeech_<code>), and the languages the movies can be dubbed in.
+VOICE_CODES = ["FR", "GE", "IT", "SP"]
+MOVIE_LANGUAGES = ["FRENCH", "GERMAN", "ITALIAN", "SPANISH", "DUTCH", "SWEDISH", "DANISH", "FINNISH", "POLISH"]
+ENGLISH_MOVIE = "_english_ntsc.mpc"
+
+
+def european_files(entries):
+    """The dubbed files of a European disc: police radio, and the movies whose
+    language version differs from the English one (the others, without
+    speech, are played from the English movie)."""
+    names = []
+    for code in VOICE_CODES:
+        for ext in ("BIG", "CSI", "EVT", "IDX"):
+            names.append("SOUND\\SPEECH\\COPSPEECH_%s.%s" % (code, ext))
+    for name in FILES:
+        if not name.lower().endswith(ENGLISH_MOVIE):
+            continue
+        base = name[:-len(ENGLISH_MOVIE)]
+        english = entries.get(name_hash(base + "_english_pal.mpc"))
+        for language in MOVIE_LANGUAGES:
+            movie = "%s_%s_pal.mpc" % (base, language.lower())
+            entry = entries.get(name_hash(movie))
+            if entry is not None and (english is None or entry[2:] != english[2:]):
+                names.append(movie)
+    return [n for n in names if name_hash(n) in entries]
+
+
 def copy_entry(disc, entry, out_path):
-    file_number, local_sector, size = entry
+    file_number, local_sector, size = entry[:3]
     source = find(disc, "NFS", "ZZDATA%d.BIN" % file_number)
     if source is None:
         sys.exit("NFS/ZZDATA%d.BIN not found in %s" % (file_number, disc))
@@ -1391,16 +1433,24 @@ def main():
     if find(disc, "SYSTEM.CNF") is None:
         sys.exit("SYSTEM.CNF not found: %s is not the root of a PS2 disc" % disc)
     with open(find(disc, "SYSTEM.CNF"), "rb") as f:
-        if b"SLUS_213.51" not in f.read():
-            sys.exit("This is not Need for Speed: Most Wanted Black Edition (SLUS-21351)")
+        system_cnf = f.read()
+    european = next((title for disc_id, title in EUROPEAN_DISCS.items() if disc_id in system_cnf), None)
+    if b"SLUS_213.51" not in system_cnf and european is None:
+        sys.exit("This is not Need for Speed: Most Wanted Black Edition (SLUS-21351) or a European\n"
+                 "Need for Speed: Most Wanted (SLES-53557, SLES-53558, SLES-53559, SLES-53857)")
 
     if with_movies and shutil.which("ffmpeg") is None:
         print("ffmpeg was not found: the movies are skipped. Install ffmpeg and run this again.")
         with_movies = False
 
     entries = read_directory(disc)
+    names = FILES
+    if european is not None:
+        names = european_files(entries)
+        print("%s: its dubbed voices and movies (%d files)." % (european, len(names)))
+        print("Run the script with the Black Edition (SLUS-21351) too: the rest of the game comes from it.")
     data, movies, missing = [], [], 0
-    for name in FILES:
+    for name in names:
         entry = entries.get(name_hash(name))
         if entry is None:
             missing += 1

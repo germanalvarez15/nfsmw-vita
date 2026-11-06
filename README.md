@@ -64,6 +64,17 @@ The script does not download anything, does not change your disc, and writes onl
 
 Running the script again is safe: it skips the files already in `OUT`, so you can run it again after installing ffmpeg to add the movies.
 
+### Voices in other languages (optional)
+
+The texts of ten languages come with the Black Edition: pick one in **Options > Gameplay > Language**. The voices on that disc are English only. For dubbed police radio, phone calls and story movies, run the script a second time with a European PS2 disc, into the same `OUT` folder:
+
+| European disc | Voices it adds |
+| --- | --- |
+| SLES-53559 | Italian, Spanish |
+| SLES-53558, SLES-53857 (Black Edition) | French, German |
+
+It copies only the dubbed files (about 250 MB per language with the movies). Copy them to `ux0:data/nfsmw/` like the rest. A language without its voices plays the English ones. Dutch, Swedish, Danish, Finnish and Polish were never dubbed.
+
 ### Updating from an earlier version
 
 Some versions need game files that earlier versions of the script did not copy. To update:
