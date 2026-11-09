@@ -119,6 +119,16 @@ The game raises the CPU to 444 MHz, the Vita's standard maximum. The frame rate 
 
 The d-pad always steers at full lock.
 
+## Split screen
+
+**Quick Race > Split Screen** is for two players, one view each (top and bottom). Player 2 needs a second controller:
+
+- **PS TV:** pair two controllers.
+- **PS Vita:** player 1 uses the Vita's own controls and player 2 a DualShock through [ds34vita](https://github.com/MERLev/ds34vita).
+  - **With one DualShock**, also install [reVita](https://github.com/MERLev/reVita) (before ds34vita in `config.txt`), turn on **Profile > Controller > "Vita as virtual DS4"** (menu: START + SQUARE), then reconnect the DualShock.
+  - **With two DualShocks**, ds34vita alone is enough.
+  - **DS4Vita and DS3Vita can't be used for player 2:** they feed the controller into the Vita's own buttons.
+
 ## Using your PS2 save
 
 You can continue a career from the PS2 game. Only saves from the **Black Edition (NTSC-U, SLUS-21351)** work, the same version the port needs; saves from the original release, the Greatest Hits, PAL or other consoles are refused.
