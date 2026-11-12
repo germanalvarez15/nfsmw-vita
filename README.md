@@ -86,13 +86,22 @@ Some versions need game files that earlier versions of the script did not copy. 
 
 ## Video settings
 
-Open **Options > Video** from the main menu or the pause menu. The game saves the settings to `ux0:data/nfsmw/config.ini` when you leave the screen.
+Open **Options > Video** from the main menu or the pause menu. Settings are split across two pages (**More Options**) and saved to `ux0:data/nfsmw/config.ini` when you leave the screen.
 
 | Setting | Values | Default | What it does |
 | --- | --- | --- | --- |
 | Resolution | 480x272, 640x368, 720x408, 960x544 | 640x368 | The size the game draws at. The Vita scales it to the screen in hardware at no cost. Applies after a restart. |
+| Widescreen | On, Off | On | On: 4:3 menus with a 16:9 HUD and wider view. Off: stretched 16:9 look (1.5.0). |
 | Frame Rate | 30, 60 | 30 | The frame rate limit. Applies at once. |
+| Anti-Aliasing | Off, 2x, 4x | Off | MSAA on the display target (note: post-processing filters use an intermediate buffer). Applies after a restart. |
+| Texture Filter | Bilinear, Mipmaps | Bilinear | Trilinear mipmaps reduce distance texture shimmer. |
+| Level of Detail | Normal, High | Normal | Keeps detailed car and scenery models visible from further away. |
+| Car Reflections | Off, Static, Dynamic, Dynamic HQ | Static | Reflection map mode on cars; Dynamic HQ doubles dynamic resolution. |
+| Car Paint | Shader, Classic | Shader | Dual-lobe metallic + clearcoat shader shading or classic PS2 approximation. |
+| Car Shadows | On, Off | On | Projected shadows underneath cars. |
+| Skid Marks | On, Off | On | Tire skid marks on the road. |
 | MW Color Filter | On, Off | On | The yellow *Most Wanted* look of the PS2 game. Applies at once. |
+| Speed Blur | On, Off | Off | Full-screen radial motion blur at high speed. |
 | Car Light Glow | On, Off | Off | Draws headlights and brake lights at full brightness. Applies at once. |
 
 **Resolution.** 960x544 is the screen's native resolution and the sharpest, but the hardest on the GPU, which limits the 3D scene. 720x408 and 640x368 are in between. 480x272 is the fastest but looks blurry. The menu shows *(restart)* until you restart the game.
@@ -119,15 +128,19 @@ The game raises the CPU to 444 MHz, the Vita's standard maximum. The frame rate 
 
 The d-pad always steers at full lock.
 
-## Split screen
+## Multiplayer
 
-**Quick Race > Split Screen** is for two players, one view each (top and bottom). Player 2 needs a second controller:
+Main menu > **Multiplayer** supports two players in circuit and sprint races across four modes:
 
-- **PS TV:** pair two controllers.
-- **PS Vita:** player 1 uses the Vita's own controls and player 2 a DualShock through [ds34vita](https://github.com/MERLev/ds34vita).
-  - **With one DualShock**, also install [reVita](https://github.com/MERLev/reVita) (before ds34vita in `config.txt`), turn on **Profile > Controller > "Vita as virtual DS4"** (menu: START + SQUARE), then reconnect the DualShock.
-  - **With two DualShocks**, ds34vita alone is enough.
-  - **DS4Vita and DS3Vita can't be used for player 2:** they feed the controller into the Vita's own buttons.
+- **Online:** peer-to-peer over the Internet (no dedicated server). Create Game opens UDP port `7777` via UPnP (or manual port forwarding if UPnP is unavailable) and gives a 16-letter room code. Cannot host behind ISP CGNAT.
+- **LAN:** two consoles on the same Wi-Fi network; Join Game discovers the host automatically.
+- **Ad Hoc:** Sony console-to-console ad hoc mode, no router needed.
+- **Split Screen:** one view each (top and bottom). Player 2 needs a second controller:
+  - **PS TV:** pair two controllers.
+  - **PS Vita:** player 1 uses the Vita's own controls and player 2 a DualShock through [ds34vita](https://github.com/MERLev/ds34vita).
+    - **With one DualShock**, also install [reVita](https://github.com/MERLev/reVita) (before ds34vita in `config.txt`), turn on **Profile > Controller > "Vita as virtual DS4"** (menu: START + SQUARE), then reconnect the DualShock.
+    - **With two DualShocks**, ds34vita alone is enough.
+    - **DS4Vita and DS3Vita can't be used for player 2:** they feed the controller into the Vita's own buttons.
 
 ## Using your PS2 save
 
